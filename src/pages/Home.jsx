@@ -1,6 +1,6 @@
 import React from 'react'
-import { useLoaderData } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useLoaderData, Link } from 'react-router-dom';
+
 import { FrontMenu } from '../components/FrontMenu';
 
 const Home = () => {
