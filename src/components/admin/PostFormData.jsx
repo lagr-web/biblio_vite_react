@@ -35,8 +35,11 @@ export const PostFormData = () => {
       });
 
       if (res.ok) {
+        
         console.log("Bogen blev oprettet med succes!");
         e.target.reset();
+        window.location.reload();
+
       } else {
         console.error("Backenden returnerede en fejl:", res.status);
       }
