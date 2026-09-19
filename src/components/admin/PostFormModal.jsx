@@ -16,7 +16,7 @@ export const PostFormModal = ({ show, onClose }) =>
             onClick={onClose}
           ></div>
           <div className="fixed z-40 w-96 p-10 mx-auto bg-white text-black top-20 left-1/2  transform -translate-x-1/2 rounded-md">
-            <div> <PostFormData /> </div>
+            <div> <PostFormData onClose={onClose} /> </div>
           </div>
         </>,
         document.body,

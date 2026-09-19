@@ -1,72 +1,65 @@
-import { useEffect, useState } from "react";
-import { API_URL } from "../../config";
-import { getAllGenreData } from "../../data";
+import { useEffect, useRef } from "react";
+import { Form, useNavigation, useActionData, useLoaderData } from "react-router-dom";
 
-export const PostFormData = () => {
-  const [genreData, setGenreData] = useState(null);
+export const PostFormData = ({onClose}) => {
 
+  const formRef = useRef(null);
+  const navigation = useNavigation();
+  const actionData = useActionData(); // Fanger `{ success: true, error: ... }` fra din action i main.jsx
+
+  // ✅ Da vi bruger "Løsning B", henter vi både bøger og genrer i din admin-loader i main.jsx.
+  // Vi pakker genrer ud direkte fra useLoaderData() uden at bekymre os om rute-id'er!
+  const { genres } = useLoaderData(); 
+
+  const isSubmitting = navigation.state === "submitting";
+
+  // Nulstil formularen automatisk, når din action melder succes
   useEffect(() => {
-    (async () => {
-      try {
-        const genre = await getAllGenreData();
-        setGenreData(genre);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    })();
-  }, []);
+    
+    if (!isSubmitting && actionData?.success) {
+      formRef.current?.reset();
+      console.log("Bogen blev oprettet med succes på admin-siden!");
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
+ if (onClose) {
 
-    const formData = new FormData(e.target);
+         setTimeout(() => {
+    
+        onClose();
+      
+    }, 1000);
+      } 
 
-    // KIG HER: Vi tjekker hvad der rent faktisk er inde i FormData nu
-    console.log(
-      "Klar til at sende til databasen:",
-      Object.fromEntries(formData.entries()),
-    );
-
-    try {
-      const res = await fetch(`${API_URL}/addbook`, {
-        method: "POST",
-        // Content-Type skal IKKE være her, når vi sender FormData!
-        body: formData, // <--- DETTE ER VIGTIGT! Send selve formData, ikke JSON.stringify
-      });
-
-      if (res.ok) {
-        
-        console.log("Bogen blev oprettet med succes!");
-        e.target.reset();
-        window.location.reload();
-
-      } else {
-        console.error("Backenden returnerede en fejl:", res.status);
-      }
-    } catch (error) {
-      console.error("Netværksfejl under oprettelse af bog:", error);
     }
-  };
+
+  }, [isSubmitting, actionData, onClose]);
 
   return (
-    <form onSubmit={onSubmit}>
+     /* ✅ 1. Fjernet action="/". Nu poster den til den rute, du står på (/admin)
+        ✅ 2. Der skal INGEN onSubmit være her overhovedet. React Router klarer det hele selv. */
+     <Form method="post" encType="multipart/form-data" ref={formRef}>
+
+       {/* Vis fejlbesked hvis backenden fejlede i din main.jsx action */}
+      {actionData?.error && (
+        <div className="mb-4 text-red-500 font-bold">{actionData.error}</div>
+      )}
+
       <div className="mb-4">
         <label className="text-[#3C6973]">Titel</label>
-        <input name="title" />
+        <input name="title" required className="border p-1 w-full" />
       </div>
 
       <div className="mb-4">
         <label className="text-[#3C6973]">Forfatter</label>
-        <input name="author" />
+        <input name="author" required className="border p-1 w-full" />
       </div>
 
       <div className="mb-4">
         <label className="text-[#3C6973]">Genre</label>
-
-        <select name="genre">
+        <select name="genre" required className="border p-1 w-full">
           <option value="">Vælg en genre</option>
-          {genreData &&
-            genreData.map((genre) => (
+          {/* ✅ Skiftet fra genreOldData til genres fra vores loader */}
+          {genres &&
+            genres.map((genre) => (
               <option key={genre._id} value={genre.slug}>
                 {genre.slug}
               </option>
@@ -75,7 +68,7 @@ export const PostFormData = () => {
       </div>
 
       <div className="mb-4">
-        <label className="text-[#3C6973]">billede</label>
+        <label className="text-[#3C6973]">Billede</label>
         <label className="flex items-center justify-center w-full px-4 py-2 bg-[#557d85] text-white rounded shadow-md cursor-pointer hover:bg-[#7AB3BF]">
           <span>Vælg en fil</span>
           <input type="file" name="image" accept="image/*" className="hidden" />
@@ -84,17 +77,18 @@ export const PostFormData = () => {
 
       <div className="mb-4">
         <label className="text-[#3C6973]">Beskrivelse</label>
-        <textarea name="description" rows={4}></textarea>
+        <textarea name="description" rows={4} className="border p-1 w-full"></textarea>
       </div>
 
       <div className="flex justify-end">
         <button
           type="submit"
-          className="bg-[#557d85] hover:bg-[#7AB3BF] text-white font-bold py-2 px-4 w-full rounded"
+          disabled={isSubmitting}
+          className="bg-[#557d85] hover:bg-[#7AB3BF] text-white font-bold py-2 px-4 w-full rounded disabled:opacity-50"
         >
-          Send
+          {isSubmitting ? "Sender..." : "Send"}
         </button>
       </div>
-    </form>
+    </Form>
   );
 };
