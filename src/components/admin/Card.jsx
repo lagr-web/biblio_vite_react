@@ -1,7 +1,7 @@
 import React from "react";
 import { API_URL } from "../../config";
 
-export const Card = ({ data, onDeleteClick }) => { // 👈 Modtag onDeleteClick proppen
+export const Card = ({ data, onDeleteClick }) => { //Modtag onDeleteClick proppen
 
   const imageSrc = {
     src: `${API_URL}/images/${data.image}`,
@@ -15,7 +15,7 @@ export const Card = ({ data, onDeleteClick }) => { // 👈 Modtag onDeleteClick 
           <img
             src="/assets/close.svg"
             className="w-5 h-5 cursor-pointer"
-            onClick={() => onDeleteClick(data)} // 👈 Giv besked opad med data for denne bog
+            onClick={() => onDeleteClick(data)} //Giv besked opad med data for denne bog
           />
         </div>
       </section>

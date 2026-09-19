@@ -17,10 +17,10 @@ export const adminAction = async ({ request }) => {
   //Håndter Slet (DELETE)
   if (request.method === "DELETE") {
     const bookId = formData.get("id");
-    return await deleteBookData(bookId); // ✅ Kalder din nye metode i data.js
+    return await deleteBookData(bookId); 
   }
 
   if (request.method === "POST") {
-    return await createBookData(formData); // ✅ Kalder din nye metode i data.js
+    return await createBookData(formData); 
   }
 };

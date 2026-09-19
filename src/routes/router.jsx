@@ -12,7 +12,7 @@ import { Admin } from "../pages/Admin.jsx";
 import { adminLoader, adminAction } from "../handlers/adminHandlers.js";
 import { homeLoader, booksLoader } from "../handlers/bookHandlers.js";
 
-// ✅ Eksporter selve router-konfigurationen
+// Eksporter selve router-konfigurationen
 export const router = createBrowserRouter([
   {
     path: "/",

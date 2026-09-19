@@ -12,7 +12,7 @@ export const Admin = () => {
   const [activeDeleteData, setActiveDeleteData] = useState(null);
 
   const { books } = useLoaderData();
-  const fetcher = useFetcher(); // 👈 Lad admin-siden have fetcheren nu
+  const fetcher = useFetcher();
 
   return (
     <>
@@ -46,7 +46,6 @@ export const Admin = () => {
       {/* Oprettelses-modal */}
       <PostFormModal show={showModal} onClose={() => setShowModal(false)} />
 
-      {/* ✅ Slette-modalen ligger nu stabilt her på Admin-niveau og overlever sletningen! */}
       <ModalConfirmDeleteBox
         show={showDeleteModal}
         data={activeDeleteData}

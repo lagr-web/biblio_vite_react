@@ -2,11 +2,11 @@ import React, { useRef, useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 
 export const ModalConfirmDeleteBox = ({ show, data, onClose, fetcher }) => {
-    
+
   const okRefElement = useRef();
   const [isShown, setIsShown] = useState(true); // Styrer visning af feedback
 
-  // ✅ Hvis vores fetcher melder succes, viser vi feedback-beskeden og lukker modalen
+  // Hvis  fetcher melder succes, vises feedback-beskeden og lukker modalen
   useEffect(() => {
     
     if (fetcher?.data?.success) {
@@ -28,8 +28,9 @@ const timer = setTimeout(() => {
   const handleSubmit = (e) => {
 
     e.preventDefault();
+
     if (fetcher) {
-      // ✅ Sender anmodningen direkte op til din adminAction i adminRoutes.js
+
       fetcher.submit(
         { id: data._id }, // Sender bogens id med som FormData
         { method: "DELETE" } // Matcher if (request.method === "DELETE") i din router

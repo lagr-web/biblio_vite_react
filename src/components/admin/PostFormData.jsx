@@ -7,8 +7,6 @@ export const PostFormData = ({onClose}) => {
   const navigation = useNavigation();
   const actionData = useActionData(); // Fanger `{ success: true, error: ... }` fra din action i main.jsx
 
-  // ✅ Da vi bruger "Løsning B", henter vi både bøger og genrer i din admin-loader i main.jsx.
-  // Vi pakker genrer ud direkte fra useLoaderData() uden at bekymre os om rute-id'er!
   const { genres } = useLoaderData(); 
 
   const isSubmitting = navigation.state === "submitting";
@@ -34,8 +32,7 @@ export const PostFormData = ({onClose}) => {
   }, [isSubmitting, actionData, onClose]);
 
   return (
-     /* ✅ 1. Fjernet action="/". Nu poster den til den rute, du står på (/admin)
-        ✅ 2. Der skal INGEN onSubmit være her overhovedet. React Router klarer det hele selv. */
+   
      <Form method="post" encType="multipart/form-data" ref={formRef}>
 
        {/* Vis fejlbesked hvis backenden fejlede i din main.jsx action */}
@@ -57,7 +54,7 @@ export const PostFormData = ({onClose}) => {
         <label className="text-[#3C6973]">Genre</label>
         <select name="genre" required className="border p-1 w-full">
           <option value="">Vælg en genre</option>
-          {/* ✅ Skiftet fra genreOldData til genres fra vores loader */}
+       
           {genres &&
             genres.map((genre) => (
               <option key={genre._id} value={genre.slug}>
