@@ -28,7 +28,7 @@ export const router = createBrowserRouter([
       {
         path: "/genre/:slug",
         element: <Books />,
-        loader: booksLoader,
+        loader: booksLoader,//get book by slug
         HydrateFallback: () => <div>Henter bøger ud fra slugs...</div>,
       },
       {

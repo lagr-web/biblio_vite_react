@@ -19,7 +19,7 @@ export const getAllBookData = async () => {
   return res.json();
 };
 
-// --- 🟢 NY METODE: OPRET BOG (POST) ---
+
 export const createBookData = async (formData) => {
   try {
     const res = await fetch(`${API_URL}/addbook`, {
@@ -34,7 +34,7 @@ export const createBookData = async (formData) => {
   }
 };
 
-// --- 🔴 NY METODE: SLET BOG (DELETE) ---
+
 export const deleteBookData = async (id) => {
   try {
     const res = await fetch(`${API_URL}/delete/${id}`, {
