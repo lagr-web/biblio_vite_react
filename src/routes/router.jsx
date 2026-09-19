@@ -9,8 +9,8 @@ import Books from "../pages/Books.jsx";
 import { Admin } from "../pages/Admin.jsx";
 
 // Importer dine eksterne loaders/actions
-import { adminLoader, adminAction } from "../routes/adminRoutes.js";
-import { getAllGenreData, getGenreBySlug } from "../data.js";
+import { adminLoader, adminAction } from "../handlers/adminHandlers.js";
+import { homeLoader, booksLoader } from "../handlers/bookHandlers.js";
 
 // ✅ Eksporter selve router-konfigurationen
 export const router = createBrowserRouter([
@@ -22,13 +22,13 @@ export const router = createBrowserRouter([
         path: "/",
         id: "root",
         element: <Home />,
-        loader: async () => await getAllGenreData(),
+        loader: homeLoader,
         HydrateFallback: () => <div>Henter alle genre...</div>,
       },
       {
         path: "/genre/:slug",
         element: <Books />,
-        loader: async ({ params }) => await getGenreBySlug(params.slug),
+        loader: booksLoader,
         HydrateFallback: () => <div>Henter bøger ud fra slugs...</div>,
       },
       {

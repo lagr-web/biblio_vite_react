@@ -18,3 +18,34 @@ export const getAllBookData = async () => {
   if (!res.ok) throw new Error("Failed to fetch book data");
   return res.json();
 };
+
+// --- 🟢 NY METODE: OPRET BOG (POST) ---
+export const createBookData = async (formData) => {
+  try {
+    const res = await fetch(`${API_URL}/addbook`, {
+      method: "POST",
+      body: formData, // Sender automatisk som multipart/form-data
+    });
+
+    if (!res.ok) return { error: "Kunne ikke oprette bogen på backenden" };
+    return { success: true };
+  } catch (error) {
+    return { error: "Netværksfejl under oprettelse" };
+  }
+};
+
+// --- 🔴 NY METODE: SLET BOG (DELETE) ---
+export const deleteBookData = async (id) => {
+  try {
+    const res = await fetch(`${API_URL}/delete/${id}`, {
+      method: "DELETE",
+    });
+
+    if (!res.ok) return { error: "Kunne ikke slette bogen på backenden" };
+    return { success: true };
+  } catch (error) {
+    return { error: "Netværksfejl under sletning" };
+  }
+};
+
+
