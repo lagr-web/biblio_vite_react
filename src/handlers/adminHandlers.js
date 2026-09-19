@@ -15,6 +15,7 @@ export const adminLoader = async () => {
 };
 
 export const adminAction = async ({ request }) => {
+  
   const formData = await request.formData();
 
   //Håndter Slet (DELETE)
